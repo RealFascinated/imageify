@@ -1,5 +1,4 @@
 import bcrypt from "bcrypt";
-import { randomString } from "./stringHelpers";
 
 /**
  * Generates a random salt for a password
@@ -7,7 +6,7 @@ import { randomString } from "./stringHelpers";
  * @return The random salt
  */
 export function generateSalt() {
-	return bcrypt.genSaltSync(10);
+	return randomString(16);
 }
 
 /**
@@ -16,7 +15,7 @@ export function generateSalt() {
  * @return The password
  */
 export function generateRandomPassword() {
-	return randomString(16);
+	return randomString(8);
 }
 
 /**
@@ -33,10 +32,10 @@ export function hashPassword(salt, password) {
 /**
  * Checks if the password is valid with the salt
  *
+ * @param {string} salt The salt
  * @param {string} password The password that the user gave
- * @param {string} hashedPassword The password in the users account
  * @return If the password is valid or not
  */
-export function isValidPassword(password, hashedPassword) {
-	return bcrypt.compareSync(password, hashedPassword);
+export function isValidPassword(salt, password) {
+	return bcrypt.compareSync(password, salt);
 }
