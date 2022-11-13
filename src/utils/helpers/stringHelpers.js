@@ -4,7 +4,7 @@
  * @param {Number} length
  * @returns The random string
  */
-function randomString(length) {
+export function randomString(length) {
 	var result = "";
 	var characters =
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
