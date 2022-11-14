@@ -5,13 +5,13 @@ import { getUserByUploadKey } from "../../../utils/helpers/userHelpers";
 
 const apiRoute = nextConnect({
 	onError(error, req, res) {
-		res.status(501).json({
+		res.status(200).json({
 			message: `An internal server error has occured. Please check console.`,
 		});
 		console.log(error);
 	},
 	onNoMatch(req, res) {
-		res.status(405).json({ message: `Method "${req.method}" Not Allowed` });
+		res.status(200).json({ message: `Method "${req.method}" Not Allowed` });
 	},
 });
 
@@ -27,7 +27,6 @@ apiRoute.post(async (req, res) => {
 	}
 	const { originalname: filename, mimetype, buffer, size } = file;
 	const { secret } = req.body;
-	console.log(secret);
 
 	const user = await getUserByUploadKey(secret);
 	if (user == null) {
@@ -37,7 +36,7 @@ apiRoute.post(async (req, res) => {
 		});
 	}
 
-	const id = await createFile(user, filename, buffer, mimetype);
+	const id = await createFile(user, filename, buffer, mimetype, size);
 	res.status(200).json({
 		message: `${process.env.NEXT_PUBLIC_SITE_URL}/files/${id}`,
 	});
