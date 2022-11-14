@@ -106,6 +106,12 @@ export async function createFile(
 	return `${fileId}.${extention}`;
 }
 
+/**
+ * Gets the files info and the files buffer
+ *
+ * @param {string} fileId The id of the file
+ * @returns The file info and file buffer
+ */
 export async function getFileRaw(fileId) {
 	const fileInfo = await getFileInfo(fileId, true);
 	if (fileInfo == null) {
