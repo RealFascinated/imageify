@@ -46,20 +46,9 @@ export default function File(props) {
 					unoptimized
 				></Image>
 			);
-		} else if (contentType.includes("video")) {
+		}
+		if (contentType.includes("video")) {
 			toShow = <video alt={fileId} src={fileUrl} controls></video>;
-		} else {
-			toShow = (
-				<Button
-					auto
-					className="bg-blue-600"
-					onPress={() => {
-						downloadURI(fileUrl, originalFileName);
-					}}
-				>
-					Download
-				</Button>
-			);
 		}
 	}
 
@@ -75,7 +64,16 @@ export default function File(props) {
 						<h3>{formatBytes(size)}</h3>
 					</div>
 				) : null}
-				{toShow}
+				<div className="md:w-4/6 md:h-4/6 sm:w-fit sm:h-fit">{toShow}</div>
+				<Button
+					auto
+					className="bg-blue-600 mt-5"
+					onPress={() => {
+						downloadURI(fileUrl, `${fileId}.${ext}`);
+					}}
+				>
+					Download
+				</Button>
 			</div>
 		</div>
 	);
