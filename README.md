@@ -1,6 +1,7 @@
 # Imageify
 
-Your new open-source ShareX image host!
+[![Build Status](https://drone.fascinated.cc/api/badges/RealFascinated/imageify/status.svg)](https://drone.fascinated.cc/RealFascinated/imageify)
+<p>Your new open-source ShareX image host!</p>
 
 ## Setup
 
