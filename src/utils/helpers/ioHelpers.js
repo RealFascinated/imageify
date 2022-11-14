@@ -40,7 +40,9 @@ export function createFileIO(dir, fileName, bytes) {
 			encoding: "utf-8",
 		},
 		(err) => {
-			console.log(err);
+			if (err) {
+				console.log(err);
+			}
 		}
 	);
 }
