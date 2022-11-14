@@ -3,9 +3,11 @@ import mongoose, { Schema } from "mongoose";
 const schema = new Schema({
 	uploader: mongoose.Types.ObjectId,
 	fileId: String,
+	originalFileName: String,
 	uploadDate: Date,
 	contentType: String,
 	ext: String,
+	size: Number,
 
 	// Image/Video specific properties
 	width: Number, // The width of the image/video in pixels

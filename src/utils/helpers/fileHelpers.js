@@ -84,6 +84,7 @@ export async function createFile(
 	const file = await FileModel.create({
 		uploader: uploader._id,
 		fileId: fileId,
+		originalFileName: fileName,
 		uploadDate: new Date(),
 		contentType: contentType,
 		ext: extention,
