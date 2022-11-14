@@ -11,7 +11,9 @@ import { createUser, getUser } from "../../../utils/helpers/userHelpers";
 const pass = generateRandomPassword();
 createUser("admin", pass).then((returned) => {
 	if (returned === true) {
-		console.log(`Created admin account. Username: admin, Password: ${pass}`);
+		console.log(
+			`Created admin account. Username: admin, Password: ${pass}, uploadKey: ${returned.uploadKey}`
+		);
 	}
 });
 
