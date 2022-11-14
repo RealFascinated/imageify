@@ -38,7 +38,13 @@ export default function File(props) {
 		contentType = contentType.toLowerCase();
 		if (contentType.includes("image")) {
 			toShow = (
-				<Image alt={fileId} src={fileUrl} width={width} height={height}></Image>
+				<Image
+					alt={fileId}
+					src={fileUrl}
+					width={width}
+					height={height}
+					unoptimized
+				></Image>
 			);
 		} else if (contentType.includes("video")) {
 			toShow = <video alt={fileId} src={fileUrl} controls></video>;

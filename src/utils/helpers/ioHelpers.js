@@ -33,7 +33,6 @@ export function createFileIO(dir, fileName, bytes) {
 	}
 
 	const fileLocation = dir + path.sep + fileName;
-	console.log(fileLocation);
 	fs.writeFile(
 		fileLocation,
 		bytes,
