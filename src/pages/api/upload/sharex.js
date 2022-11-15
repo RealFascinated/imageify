@@ -1,3 +1,4 @@
+import { StatusCodes } from "http-status-codes";
 import multer from "multer";
 import nextConnect from "next-connect";
 import { createFile } from "../../../utils/helpers/fileHelpers";
@@ -5,13 +6,15 @@ import { getUserByUploadKey } from "../../../utils/helpers/userHelpers";
 
 const apiRoute = nextConnect({
 	onError(error, req, res) {
-		res.status(200).json({
+		res.status(StatusCodes.OK).json({
 			message: `An internal server error has occured. Please check console.`,
 		});
 		console.log(error);
 	},
 	onNoMatch(req, res) {
-		res.status(200).json({ message: `Method "${req.method}" Not Allowed` });
+		res
+			.status(StatusCodes.OK)
+			.json({ message: `Method "${req.method}" Not Allowed` });
 	},
 });
 
@@ -20,7 +23,7 @@ apiRoute.use(multer().any());
 apiRoute.post(async (req, res) => {
 	const file = req.files[0];
 	if (!file) {
-		return res.status(200).json({
+		return res.status(StatusCodes.OK).json({
 			status: "OK",
 			message: `No file provided`,
 		});
@@ -30,16 +33,25 @@ apiRoute.post(async (req, res) => {
 
 	const user = await getUserByUploadKey(secret);
 	if (user == null) {
-		return res.status(200).json({
+		return res.status(StatusCodes.OK).json({
 			status: "OK",
 			message: `Unauthorized`,
 		});
 	}
 
-	const id = await createFile(user, filename, buffer, mimetype, size);
-	res.status(200).json({
-		message: `${process.env.NEXT_PUBLIC_SITE_URL}/files/${id}`,
-	});
+	createFile(user, filename, buffer, mimetype, size)
+		.then((id) => {
+			res.status(StatusCodes.OK).json({
+				message: `${process.env.NEXT_PUBLIC_SITE_URL}/files/${id}`,
+			});
+		})
+		.catch((err) => {
+			console.log(err);
+			return res.status(StatusCodes.OK).json({
+				status: "OK",
+				message: "There was an error saving this file",
+			});
+		});
 });
 
 export default apiRoute;
