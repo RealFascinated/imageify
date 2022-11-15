@@ -1,3 +1,4 @@
+import { StatusCodes } from "http-status-codes";
 import { getFileRaw } from "src/utils/helpers/fileHelpers";
 
 /**
@@ -5,10 +6,15 @@ import { getFileRaw } from "src/utils/helpers/fileHelpers";
  * @param {NextResponse} res
  */
 export default async function handler(req, res) {
-	const fileId = req.query.fileId;
+	const fileId = req.query.fileId.split(".")[0]; // The file id to fetch
 
-	const { file, buffer } = await getFileRaw(fileId);
+	const { file, readStream } = await getFileRaw(fileId); // Fetch the info and readStream for the file
+	if (file == null) {
+		return res
+			.status(StatusCodes.NOT_FOUND)
+			.json({ status: StatusCodes.NOT_FOUND, message: "File not found" });
+	}
 
-	res.setHeader("Content-Type", file.contentType);
-	res.send(buffer);
+	res.setHeader("Content-Type", file.contentType); // Set the content type header
+	readStream.pipe(res); // Send the file to the client
 }
