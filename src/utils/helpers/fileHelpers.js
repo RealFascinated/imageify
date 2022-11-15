@@ -52,7 +52,12 @@ export async function getFileInfo(fileId, isInternal = false) {
 	file.uploader = uploader;
 	file._id = undefined;
 	file.__v = undefined;
-	file.fileUrl = process.env.NEXT_PUBLIC_SITE_URL + "/api/files/" + file.fileId;
+	file.fileUrl =
+		process.env.NEXT_PUBLIC_SITE_URL +
+		"/api/files/" +
+		file.fileId +
+		"." +
+		file.ext;
 	return file;
 }
 
@@ -64,6 +69,7 @@ export async function getFileInfo(fileId, isInternal = false) {
  * @param {Buffer} buffer The buffer of the file
  * @param {string} contentType The content type of the file
  * @param {Number} size The size of the file
+ * @return The file id or undefined if there was an error
  */
 export async function createFile(
 	uploader,
@@ -74,36 +80,41 @@ export async function createFile(
 ) {
 	const fileId = randomString(process.env.FILE_ID_LENGTH);
 	const extention = fileName.split(".").at(-1).toLowerCase();
-	// Todo: Check if the file was actually saved to
-	// disk and create a return type so we can notify the user what happened
-	await createFileIO(
-		`${BASE_STORAGE}${uploader.uploadKey}`,
-		`${fileId}.${extention}`,
-		buffer
-	);
-	const file = await FileModel.create({
-		uploader: uploader._id,
-		fileId: fileId,
-		originalFileName: fileName,
-		uploadDate: new Date(),
-		contentType: contentType,
-		ext: extention,
-		size: size,
+	return new Promise((resolve, reject) => {
+		createFileIO(
+			`${BASE_STORAGE}${uploader.uploadKey}`,
+			`${fileId}.${extention}`,
+			buffer
+		)
+			.then(async () => {
+				const file = await FileModel.create({
+					uploader: uploader._id,
+					fileId: fileId,
+					originalFileName: fileName,
+					uploadDate: new Date(),
+					contentType: contentType,
+					ext: extention,
+					size: size,
+				});
+
+				contentType = contentType.toLowerCase();
+				if (contentType.includes("image") || contentType.includes("video")) {
+					const fileMetaData = await ffprobe(
+						`${BASE_STORAGE}${uploader.uploadKey}${path.sep}${fileId}.${extention}`,
+						{ path: ffprobeStatic.path }
+					);
+					const dimensions = fileMetaData.streams[0];
+					file.width = dimensions.width;
+					file.height = dimensions.height;
+				}
+
+				await file.save();
+				resolve(`${fileId}.${extention}`);
+			})
+			.catch((err) => {
+				reject();
+			});
 	});
-
-	contentType = contentType.toLowerCase();
-	if (contentType.includes("image") || contentType.includes("video")) {
-		const fileMetaData = await ffprobe(
-			`${BASE_STORAGE}${uploader.uploadKey}${path.sep}${fileId}.${extention}`,
-			{ path: ffprobeStatic.path }
-		);
-		const dimensions = fileMetaData.streams[0];
-		file.width = dimensions.width;
-		file.height = dimensions.height;
-	}
-
-	await file.save();
-	return `${fileId}.${extention}`;
 }
 
 /**
@@ -115,10 +126,10 @@ export async function createFile(
 export async function getFileRaw(fileId) {
 	const fileInfo = await getFileInfo(fileId, true);
 	if (fileInfo == null) {
-		return null;
+		return { file: null, readStream: null };
 	}
 
 	const filePath = `${BASE_STORAGE}${fileInfo.uploader.uploadKey}${path.sep}${fileInfo.fileId}.${fileInfo.ext}`;
-	const buffer = await readFileIO(filePath);
-	return { file: fileInfo, buffer: buffer };
+	const readStream = readFileIO(filePath);
+	return { file: fileInfo, readStream: readStream };
 }
