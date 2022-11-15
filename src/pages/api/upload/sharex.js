@@ -7,25 +7,31 @@ import { getUserByUploadKey } from "../../../utils/helpers/userHelpers";
 const apiRoute = nextConnect({
 	onError(error, req, res) {
 		res.status(StatusCodes.OK).json({
-			message: `An internal server error has occured. Please check console.`,
+			message: "An internal server error has occured. Please check console.",
 		});
 		console.log(error);
 	},
 	onNoMatch(req, res) {
 		res
 			.status(StatusCodes.OK)
-			.json({ message: `Method "${req.method}" Not Allowed` });
+			.json({ message: `Method ${req.method} not allowed` });
 	},
 });
 
-apiRoute.use(multer().any());
+apiRoute.use(
+	multer({
+		limits: {
+			fileSize: process.env.MAX_FILE_SIZE,
+		},
+	}).single("sharex")
+);
 
 apiRoute.post(async (req, res) => {
-	const file = req.files[0];
+	const file = req.file;
 	if (!file) {
 		return res.status(StatusCodes.OK).json({
 			status: "OK",
-			message: `No file provided`,
+			message: "No file provided",
 		});
 	}
 	const { originalname: filename, mimetype, buffer, size } = file;
@@ -35,7 +41,7 @@ apiRoute.post(async (req, res) => {
 	if (user == null) {
 		return res.status(StatusCodes.OK).json({
 			status: "OK",
-			message: `Unauthorized`,
+			message: "Unauthorized",
 		});
 	}
 
