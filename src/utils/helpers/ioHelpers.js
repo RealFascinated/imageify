@@ -16,6 +16,7 @@ export function exists(path) {
 	if (existsCache.has(path)) {
 		return existsCache.get(path);
 	}
+	// eslint-disable-next-line security/detect-non-literal-fs-filename
 	const exists = fs.existsSync(path);
 	existsCache.set(path, exists);
 	return exists;
@@ -28,23 +29,29 @@ export function exists(path) {
  * @param {Buffer} bytes The bytes of the file
  */
 export function createFileIO(dir, fileName, bytes) {
-	if (!exists(dir)) {
-		fs.mkdirSync(dir, { recursive: true });
-	}
-
-	const fileLocation = dir + path.sep + fileName;
-	fs.writeFile(
-		fileLocation,
-		bytes,
-		{
-			encoding: "utf-8",
-		},
-		(err) => {
-			if (err) {
+	return new Promise(async (resolve, reject) => {
+		if (!exists(dir)) {
+			// eslint-disable-next-line security/detect-non-literal-fs-filename
+			try {
+				await fs.promises.mkdir(dir, { recursive: true }); // Create any missing directories
+			} catch (err) {
 				console.log(err);
+				return reject(err);
 			}
 		}
-	);
+
+		const fileLocation = dir + path.sep + fileName;
+		try {
+			// eslint-disable-next-line security/detect-non-literal-fs-filename
+			await fs.promises.writeFile(fileLocation, bytes); // Write the file to disk
+			resolve();
+		} catch (err) {
+			console.log(err);
+			// eslint-disable-next-line security/detect-non-literal-fs-filename
+			await fs.promises.unlink(fileLocation); // Delete the file
+			return reject(err);
+		}
+	});
 }
 
 /**
@@ -54,12 +61,6 @@ export function createFileIO(dir, fileName, bytes) {
  * @return The file
  */
 export function readFileIO(path) {
-	return new Promise((resolve, reject) => {
-		fs.readFile(path, (err, data) => {
-			if (err) {
-				return reject(err);
-			}
-			return resolve(data);
-		});
-	});
+	// eslint-disable-next-line security/detect-non-literal-fs-filename
+	return fs.createReadStream(path);
 }
