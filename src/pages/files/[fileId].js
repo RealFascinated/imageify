@@ -10,6 +10,7 @@ export default function File(props) {
 	const { isValidFile, fileData } = props;
 	const file = JSON.parse(fileData);
 	let {
+		uploader,
 		fileId,
 		originalFileName,
 		uploadDate,
@@ -23,15 +24,17 @@ export default function File(props) {
 
 	let toShow;
 	if (!isValidFile) {
-		toShow = (
-			<>
-				<h1 className="text-red-500 text-3xl mb-5">Invalid File</h1>
-				<Link href="/">
-					<Button auto className="bg-blue-600">
-						Go Home
-					</Button>
-				</Link>
-			</>
+		return (
+			<div className="h-screen flex items-center justify-center">
+				<div className="flex flex-col text-center items-center justify-center">
+					<h1 className="text-red-500 text-3xl mb-5">Invalid File</h1>
+					<Link href="/">
+						<Button auto className="bg-blue-600">
+							Go Home
+						</Button>
+					</Link>
+				</div>
+			</div>
 		);
 	}
 	if (isValidFile) {
@@ -54,17 +57,16 @@ export default function File(props) {
 
 	return (
 		<div className="h-screen flex items-center justify-center">
-			<div className="flex flex-col text-center items-center justify-center">
-				{isValidFile ? (
-					<div className="mb-4">
-						<h1 className="font-bold text-lg">
-							{originalFileName} ({fileId}.{ext})
-						</h1>
-						<h3>{moment(uploadDate).format("MMMM Do YYYY, h:mm:ss a")}</h3>
-						<h3>{formatBytes(size)}</h3>
-					</div>
-				) : null}
-				<div className="md:w-4/6 md:h-4/6 sm:w-fit sm:h-fit">{toShow}</div>
+			<div className="flex flex-col items-center justify-center">
+				<h1 className="font-bold text-lg">
+					{originalFileName} ({fileId}.{ext})
+				</h1>
+				<h3>{moment(uploadDate).format("MMMM Do YYYY, h:mm:ss a")}</h3>
+				<h3>
+					Uploader: <span className="font-bold">{uploader.username}</span> -{" "}
+					{formatBytes(size)}
+				</h3>
+				<div className="md:w-4/6 md:h-4/6 sm:w-fit sm:h-fit mt-3">{toShow}</div>
 				<Button
 					auto
 					className="bg-blue-600 mt-5"
