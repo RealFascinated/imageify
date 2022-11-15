@@ -18,3 +18,9 @@ export default async function handler(req, res) {
 	res.setHeader("Content-Type", file.contentType); // Set the content type header
 	readStream.pipe(res); // Send the file to the client
 }
+
+export const config = {
+	api: {
+		responseLimit: "1gb", // Limit the response size (the file)
+	},
+};
