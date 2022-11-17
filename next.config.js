@@ -1,12 +1,14 @@
-/** @type {import('next').NextConfig} */
-
 const imageUrlParts = process.env.NEXT_PUBLIC_SITE_URL.split("://");
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
 	reactStrictMode: true,
 	output: "standalone",
 	swcMinify: true,
 	optimizeFonts: true,
+	experimental: {
+		optimizeCss: true,
+	},
 
 	images: {
 		remotePatterns: [
