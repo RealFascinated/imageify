@@ -1,6 +1,7 @@
 import { NextSeo } from "next-seo";
 import dynamic from "next/dynamic";
 import { getFileInfo } from "src/utils/helpers/fileHelpers";
+import { replaceFilePlaceholders } from "src/utils/helpers/placeholderHelpers";
 import { formatBytes } from "src/utils/helpers/stringHelpers";
 import { downloadURI } from "src/utils/helpers/webUtils";
 
@@ -51,26 +52,39 @@ export default function File({ isValidFile, fileData }) {
 		}
 	}
 
-	let openGraph = {
-		title: isValidFile ? `${fileId}.${ext}` : "Unknown file",
-	};
+	let openGraph = {};
+	let embedColor;
 	if (!isValidFile) {
+		openGraph.title = "Unknown file";
 		openGraph.description = "This file was not found, is this correct id?";
 	}
-	if (!isVideo && !isImage) {
-		openGraph.description = "Click to open and download this file";
-	}
-	if (imageOrVideo) {
-		openGraph = Object.assign(openGraph, imageOrVideo);
+	if (isValidFile) {
+		if (!isVideo && !isImage) {
+			openGraph.description = "Click to open and download this file";
+		}
+		if (imageOrVideo) {
+			openGraph = Object.assign(openGraph, imageOrVideo);
+		}
+
+		const { embed, title, description, color } = uploader.discordEmbed;
+		if (!embed) {
+			openGraph.title = undefined;
+			openGraph.description = undefined;
+		} else {
+			openGraph.title = replaceFilePlaceholders(file, title);
+			openGraph.description = replaceFilePlaceholders(file, description || "");
+			embedColor = "#" + color;
+		}
 	}
 	const metaData = (
 		<NextSeo
-			title={isValidFile ? `${fileId}.${ext}` : "Invalid file"}
-			noindex
+			title={openGraph.title}
 			openGraph={openGraph}
+			themeColor={embedColor ? embedColor : undefined}
 			twitter={{
 				cardType: isImage ? "summary_large_image" : isVideo ? "player" : null,
 			}}
+			noindex
 		/>
 	);
 
