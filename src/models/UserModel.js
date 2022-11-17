@@ -10,6 +10,14 @@ const schema = new Schema({
 	salt: String, // The salt the password was hashed with
 	uploadKey: String, // The users upload key for ShareX
 	lastLoginDate: Date, // The last time the user logged in
+
+	// User Settings
+	discordEmbed: {
+		embed: Boolean,
+		title: String,
+		description: String,
+		color: String,
+	},
 });
 
 export default mongoose.models.User || mongoose.model("User", schema);
