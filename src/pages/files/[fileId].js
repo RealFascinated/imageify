@@ -14,7 +14,6 @@ export default function File({ isValidFile, fileData }) {
 		fileId,
 		originalFileName,
 		uploadDate,
-		contentType,
 		fileUrl,
 		width,
 		height,
@@ -141,9 +140,13 @@ export default function File({ isValidFile, fileData }) {
 	);
 }
 
-export async function getServerSideProps(ctx) {
-	let { fileId } = ctx.query;
+export async function getServerSideProps({ query, res }) {
+	let { fileId } = query;
 	fileId = fileId.split(".")[0];
+	res.setHeader(
+		"Cache-Control",
+		"public, s-maxage=10, stale-while-revalidate=300" // Cache for 5 minutes
+	);
 
 	const file = await getFileInfo(fileId);
 	return {
