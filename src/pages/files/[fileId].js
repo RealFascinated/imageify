@@ -142,13 +142,13 @@ export default function File({ isValidFile, fileData }) {
 	);
 }
 
-export async function getServerSideProps({ query, res }) {
-	let { fileId } = query;
+export async function getStaticPaths() {
+	return { paths: [], fallback: "blocking" };
+}
+
+export async function getStaticProps({ params }) {
+	let { fileId } = params;
 	fileId = fileId.split(".")[0];
-	res.setHeader(
-		"Cache-Control",
-		"public, s-maxage=10, stale-while-revalidate=300" // Cache for 5 minutes
-	);
 
 	const file = await getFileInfo(fileId);
 	return {
