@@ -12,7 +12,8 @@ services:
     env_file:
       - .env
     ports:
-      - 3000:3000
+      - 7769:3000
+    user: root
     volumes:
       - ./.storage:/app/.storage
 
@@ -22,5 +23,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: imageify
       MONGO_INITDB_ROOT_PASSWORD: reallysecuremongopassword
+    ports:
+      - 27017:27017
+    user: root
     volumes:
-      - ./mongodb:/data
+      - ./mongodb:/data/db
