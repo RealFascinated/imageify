@@ -3,6 +3,9 @@ import { createTheme } from "@nextui-org/react";
 export const darkTheme = createTheme({
 	type: "dark",
 	theme: {
-		colors: {}, // override dark theme colors
+		colors: {
+			white: "#ffffff",
+			black: "#000000",
+		}, // override dark theme colors
 	},
 });
