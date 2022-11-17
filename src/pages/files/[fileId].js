@@ -56,6 +56,9 @@ export default function File({ isValidFile, fileData }) {
 	if (!isValidFile) {
 		openGraph.description = "This file was not found, is this correct id?";
 	}
+	if (!isVideo && !isImage) {
+		openGraph.description = "Click to open and download this file";
+	}
 	if (imageOrVideo) {
 		openGraph = Object.assign(openGraph, imageOrVideo);
 	}
