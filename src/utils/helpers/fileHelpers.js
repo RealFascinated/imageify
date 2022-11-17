@@ -1,5 +1,6 @@
 import ffprobe from "ffprobe";
 import ffprobeStatic from "ffprobe-static";
+import moment from "moment/moment";
 import path from "path";
 import UserModel from "src/models/UserModel";
 import { FILE_STORAGE_LOCATION } from "../../consts/filePaths";
@@ -52,6 +53,7 @@ export async function getFileInfo(fileId, isInternal = false) {
 	file.uploader = uploader;
 	file._id = undefined;
 	file.__v = undefined;
+	file.uploadDate = moment(file.uploadDate).format("MMMM Do YYYY, h:mm:ss a");
 	file.isImage = file.contentType.includes("image");
 	file.isVideo = file.contentType.includes("video");
 	file.fileUrl =
