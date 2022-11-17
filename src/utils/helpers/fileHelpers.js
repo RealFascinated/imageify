@@ -114,7 +114,7 @@ export async function createFile(
 				resolve(`${fileId}.${extention}`);
 			})
 			.catch((err) => {
-				reject();
+				reject(err);
 			});
 	});
 }
