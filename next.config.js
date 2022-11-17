@@ -10,7 +10,14 @@ const nextConfig = {
 	optimizeFonts: true,
 	poweredByHeader: false,
 	experimental: {
-		optimizeCss: true,
+		// Will leave disabled for now as it causes
+		// cpu usage spikes when loading a page
+		//optimizeCss: true,
+	},
+	compiler: {
+		removeConsole: {
+			exclude: ["error"],
+		},
 	},
 
 	images: {
