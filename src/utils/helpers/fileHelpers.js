@@ -52,6 +52,8 @@ export async function getFileInfo(fileId, isInternal = false) {
 	file.uploader = uploader;
 	file._id = undefined;
 	file.__v = undefined;
+	file.isImage = file.contentType.includes("image");
+	file.isVideo = file.contentType.includes("video");
 	file.fileUrl =
 		process.env.NEXT_PUBLIC_SITE_URL +
 		"/api/files/" +
