@@ -29,7 +29,8 @@
 		"next-seo": "^5.14.1",
 		"node-cache": "^5.1.2",
 		"react": "18.2.0",
-		"react-dom": "18.2.0"
+		"react-dom": "18.2.0",
+		"sharp": "^0.31.2"
 	},
 	"devDependencies": {
 		"autoprefixer": "^10.4.13",
