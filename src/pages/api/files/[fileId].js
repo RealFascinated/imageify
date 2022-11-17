@@ -16,6 +16,7 @@ export default async function handler(req, res) {
 	}
 
 	res.setHeader("Content-Type", file.contentType); // Set the content type header
+	res.setHeader("Cache-control", "public, max-age=3600"); // Cache the file for 1 hour
 	readStream.pipe(res); // Send the file to the client
 }
 
