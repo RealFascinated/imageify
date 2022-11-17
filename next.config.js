@@ -10,7 +10,11 @@ const nextConfig = {
 			{
 				protocol: "http",
 				hostname: "localhost",
-				port: "3000",
+				pathname: "/api/files/**",
+			},
+			{
+				protocol: "http",
+				hostname: process.env.NEXT_PUBLIC_SITE_URL,
 				pathname: "/api/files/**",
 			},
 		],
