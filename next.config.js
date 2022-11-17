@@ -1,6 +1,6 @@
-const imageUrlParts =
-	process.env.NEXT_PUBLIC_SITE_URL.split("://") ||
-	"http://localhost:3000".split("://"); // To make tests pass
+const imageUrlParts = process.env.NEXT_PUBLIC_SITE_URL
+	? process.env.NEXT_PUBLIC_SITE_URL.split("://")
+	: "http://localhost:3000".split("://"); // To make tests pass
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
