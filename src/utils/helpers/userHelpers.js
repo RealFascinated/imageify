@@ -46,6 +46,13 @@ export async function createUser(username, password) {
 			password: hashPassword(salt, password),
 			salt: salt,
 			uploadKey: randomString(16),
+
+			discordEmbed: {
+				embed: true,
+				title: "{id}.{ext}",
+				description: null,
+				color: "0063EB",
+			},
 		});
 		user.save();
 	} catch (e) {
