@@ -7,6 +7,7 @@ import { downloadURI } from "src/utils/helpers/webUtils";
 const Link = dynamic(() => import("next/link"));
 const Image = dynamic(() => import("next/image"));
 const Button = dynamic(() => import("@nextui-org/react/button"));
+const Text = dynamic(() => import("@nextui-org/react/text"));
 
 export default function File({ isValidFile, fileData }) {
 	const file = JSON.parse(fileData);
@@ -113,14 +114,14 @@ export default function File({ isValidFile, fileData }) {
 			{metaData}
 			<div className="h-screen flex items-center justify-center">
 				<div className="flex flex-col items-center justify-center">
-					<h1 className="font-bold text-lg">
+					<Text h1 className="font-bold text-lg">
 						{originalFileName} ({fileId}.{ext})
-					</h1>
-					<h3>{uploadDate}</h3>
-					<h3>
+					</Text>
+					<Text>{uploadDate}</Text>
+					<Text>
 						Uploader: <span className="font-bold">{uploader.username}</span> -{" "}
 						{formatBytes(size)}
-					</h3>
+					</Text>
 					<div className="md:max-w-[70%] sm:w-fit sm:h-fit mt-3 items-center justify-center">
 						{toShow}
 					</div>
