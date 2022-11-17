@@ -1,11 +1,12 @@
-import { Button } from "@nextui-org/react";
-import moment from "moment/moment";
 import { NextSeo } from "next-seo";
-import Image from "next/image";
-import Link from "next/link";
+import dynamic from "next/dynamic";
 import { getFileInfo } from "src/utils/helpers/fileHelpers";
 import { formatBytes } from "src/utils/helpers/stringHelpers";
 import { downloadURI } from "src/utils/helpers/webUtils";
+
+const Link = dynamic(() => import("next/link"));
+const Image = dynamic(() => import("next/image"));
+const Button = dynamic(() => import("@nextui-org/react/button"));
 
 export default function File({ isValidFile, fileData }) {
 	const file = JSON.parse(fileData);
@@ -115,7 +116,7 @@ export default function File({ isValidFile, fileData }) {
 					<h1 className="font-bold text-lg">
 						{originalFileName} ({fileId}.{ext})
 					</h1>
-					<h3>{moment(uploadDate).format("MMMM Do YYYY, h:mm:ss a")}</h3>
+					<h3>{uploadDate}</h3>
 					<h3>
 						Uploader: <span className="font-bold">{uploader.username}</span> -{" "}
 						{formatBytes(size)}
