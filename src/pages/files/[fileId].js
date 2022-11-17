@@ -7,8 +7,7 @@ import { getFileInfo } from "src/utils/helpers/fileHelpers";
 import { formatBytes } from "src/utils/helpers/stringHelpers";
 import { downloadURI } from "src/utils/helpers/webUtils";
 
-export default function File(props) {
-	const { isValidFile, fileData } = props;
+export default function File({ isValidFile, fileData }) {
 	const file = JSON.parse(fileData);
 	let {
 		uploader,
@@ -21,9 +20,46 @@ export default function File(props) {
 		height,
 		ext,
 		size,
+		isImage,
+		isVideo,
 	} = file;
 
-	const metaData = <NextSeo title={`${fileId}.${ext}`} />;
+	let imageOrVideo;
+	if (isValidFile) {
+		if (isImage) {
+			imageOrVideo = {
+				images: [
+					{
+						url: fileUrl,
+						height: height,
+						width: width,
+					},
+				],
+			};
+		}
+		if (isVideo) {
+			imageOrVideo = {
+				videos: [
+					{
+						url: fileUrl,
+						height: height,
+						width: width,
+					},
+				],
+			};
+		}
+	}
+
+	const metaData = (
+		<NextSeo
+			title={isValidFile ? `${fileId}.${ext}` : "Invalid file"}
+			noindex
+			openGraph={imageOrVideo}
+			twitter={{
+				cardType: "large_summary",
+			}}
+		/>
+	);
 
 	let toShow;
 	if (!isValidFile) {
@@ -44,8 +80,7 @@ export default function File(props) {
 		);
 	}
 	if (isValidFile) {
-		contentType = contentType.toLowerCase();
-		if (contentType.includes("image")) {
+		if (isImage) {
 			toShow = (
 				<Image
 					alt={fileId}
@@ -56,7 +91,7 @@ export default function File(props) {
 				></Image>
 			);
 		}
-		if (contentType.includes("video")) {
+		if (isVideo) {
 			toShow = <video alt={fileId} src={fileUrl} controls></video>;
 		}
 	}
