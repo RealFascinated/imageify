@@ -1,8 +1,8 @@
 import { StatusCodes } from "http-status-codes";
 import multer from "multer";
 import nextConnect from "next-connect";
-import { createFile } from "../../../utils/helpers/fileHelpers";
-import { getUserByUploadKey } from "../../../utils/helpers/userHelpers";
+import { createFile } from "../../utils/helpers/fileHelpers";
+import { getUserByUploadKey } from "../../utils/helpers/userHelpers";
 
 const apiRoute = nextConnect({
 	onError(error, req, res) {
@@ -23,7 +23,7 @@ apiRoute.use(
 		limits: {
 			fileSize: process.env.MAX_FILE_SIZE,
 		},
-	}).single("sharex")
+	}).single("file")
 );
 
 apiRoute.post(async (req, res) => {
