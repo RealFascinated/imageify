@@ -13,10 +13,22 @@ const schema = new Schema({
 
 	// User Settings
 	discordEmbed: {
-		embed: Boolean,
-		title: String,
-		description: String,
-		color: String,
+		embed: {
+			type: Boolean,
+			default: true,
+		},
+		title: {
+			type: String,
+			default: "{id}.{ext}",
+		},
+		description: {
+			type: String,
+			default: null,
+		},
+		color: {
+			type: String,
+			default: "0063EB",
+		},
 	},
 });
 
