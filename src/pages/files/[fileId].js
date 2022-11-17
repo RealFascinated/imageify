@@ -95,13 +95,7 @@ export default function File({ isValidFile, fileData }) {
 	if (isValidFile) {
 		if (isImage) {
 			toShow = (
-				<Image
-					alt={fileId}
-					src={fileUrl}
-					width={width}
-					height={height}
-					unoptimized
-				></Image>
+				<Image alt={fileId} src={fileUrl} width={width} height={height}></Image>
 			);
 		}
 		if (isVideo) {
@@ -156,5 +150,6 @@ export async function getStaticProps({ params }) {
 			isValidFile: file !== null,
 			fileData: JSON.stringify(file || []),
 		},
+		revalidate: 300, // 5 minutes
 	};
 }
