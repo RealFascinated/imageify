@@ -14,11 +14,11 @@ const nextConfig = {
 		// cpu usage spikes when loading a page
 		//optimizeCss: true,
 	},
-	compiler: {
-		removeConsole: {
-			exclude: ["error"],
-		},
-	},
+	// compiler: {
+	// 	removeConsole: {
+	// 		exclude: ["error"],
+	// 	},
+	// },
 
 	images: {
 		remotePatterns: [
