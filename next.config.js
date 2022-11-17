@@ -8,6 +8,7 @@ const nextConfig = {
 	output: "standalone",
 	swcMinify: true,
 	optimizeFonts: true,
+	poweredByHeader: false,
 	experimental: {
 		optimizeCss: true,
 	},
