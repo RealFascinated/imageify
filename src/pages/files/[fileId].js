@@ -50,13 +50,22 @@ export default function File({ isValidFile, fileData }) {
 		}
 	}
 
+	let openGraph = {
+		title: isValidFile ? `${fileId}.${ext}` : "Unknown file",
+	};
+	if (!isValidFile) {
+		openGraph.description = "This file was not found, is this correct id?";
+	}
+	if (imageOrVideo) {
+		openGraph = Object.assign(openGraph, imageOrVideo);
+	}
 	const metaData = (
 		<NextSeo
 			title={isValidFile ? `${fileId}.${ext}` : "Invalid file"}
 			noindex
-			openGraph={imageOrVideo}
+			openGraph={openGraph}
 			twitter={{
-				cardType: "large_summary",
+				cardType: isImage ? "summary_large_image" : isVideo ? "player" : null,
 			}}
 		/>
 	);
