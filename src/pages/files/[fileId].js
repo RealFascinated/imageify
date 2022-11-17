@@ -1,5 +1,6 @@
 import { Button } from "@nextui-org/react";
 import moment from "moment/moment";
+import { NextSeo } from "next-seo";
 import Image from "next/image";
 import Link from "next/link";
 import { getFileInfo } from "src/utils/helpers/fileHelpers";
@@ -22,19 +23,24 @@ export default function File(props) {
 		size,
 	} = file;
 
+	const metaData = <NextSeo title={`${fileId}.${ext}`} />;
+
 	let toShow;
 	if (!isValidFile) {
 		return (
-			<div className="h-screen flex items-center justify-center">
-				<div className="flex flex-col text-center items-center justify-center">
-					<h1 className="text-red-500 text-3xl mb-5">Invalid File</h1>
-					<Link href="/">
-						<Button auto className="bg-blue-600">
-							Go Home
-						</Button>
-					</Link>
+			<>
+				{metaData}
+				<div className="h-screen flex items-center justify-center">
+					<div className="flex flex-col text-center items-center justify-center">
+						<h1 className="text-red-500 text-3xl mb-5">Invalid File</h1>
+						<Link href="/">
+							<Button auto className="bg-blue-600">
+								Go Home
+							</Button>
+						</Link>
+					</div>
 				</div>
-			</div>
+			</>
 		);
 	}
 	if (isValidFile) {
@@ -56,28 +62,35 @@ export default function File(props) {
 	}
 
 	return (
-		<div className="h-screen flex items-center justify-center">
-			<div className="flex flex-col items-center justify-center">
-				<h1 className="font-bold text-lg">
-					{originalFileName} ({fileId}.{ext})
-				</h1>
-				<h3>{moment(uploadDate).format("MMMM Do YYYY, h:mm:ss a")}</h3>
-				<h3>
-					Uploader: <span className="font-bold">{uploader.username}</span> -{" "}
-					{formatBytes(size)}
-				</h3>
-				<div className="md:w-4/6 md:h-4/6 sm:w-fit sm:h-fit mt-3">{toShow}</div>
-				<Button
-					auto
-					className="bg-blue-600 mt-5"
-					onPress={() => {
-						downloadURI(fileUrl, `${fileId}.${ext}`);
-					}}
-				>
-					Download
-				</Button>
+		<>
+			{metaData}
+			<div className="h-screen flex items-center justify-center">
+				<div className="flex flex-col items-center justify-center">
+					<h1 className="font-bold text-lg">
+						{originalFileName} ({fileId}.{ext})
+					</h1>
+					<h3>{moment(uploadDate).format("MMMM Do YYYY, h:mm:ss a")}</h3>
+					<h3>
+						Uploader: <span className="font-bold">{uploader.username}</span> -{" "}
+						{formatBytes(size)}
+					</h3>
+					<div className="md:max-w-[70%] sm:w-fit sm:h-fit mt-3 items-center justify-center">
+						{toShow}
+					</div>
+					{!toShow ? (
+						<Button
+							auto
+							className="bg-blue-600 mt-5"
+							onPress={() => {
+								downloadURI(fileUrl, `${fileId}.${ext}`);
+							}}
+						>
+							Download
+						</Button>
+					) : null}
+				</div>
 			</div>
-		</div>
+		</>
 	);
 }
 
