@@ -31,7 +31,6 @@ const nextConfig = {
 			{
 				protocol: imageUrlParts[0],
 				hostname: imageUrlParts[1].split(":")[0],
-				port: "443",
 				pathname: "/api/files/**",
 			},
 		],
