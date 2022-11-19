@@ -1,6 +1,7 @@
 # Imageify
 
 [![Build Status](https://drone.fascinated.cc/api/badges/RealFascinated/imageify/status.svg)](https://drone.fascinated.cc/RealFascinated/imageify)
+
 <p>Your new open-source ShareX image host!</p>
 
 ## Setup
@@ -18,3 +19,10 @@
 
 - Run `docker exec -it imageify-server npm run cli user add admin@example.com`
 - You will get a password returned and you can now login to you admin account. (Please note that you should change this password)
+
+## Todo
+
+- Add more comments to the code
+- Create the home page
+- Create the dashboard (for users)
+- Create the admin panel (to manage the instance)
