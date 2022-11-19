@@ -45,7 +45,7 @@ export default function NavBar() {
 						</Dropdown.Menu>
 					</Dropdown>
 				) : (
-					<Navbar.Link color="inherit" href="#">
+					<Navbar.Link color="inherit" href="/api/auth/signin">
 						Login
 					</Navbar.Link>
 				)}
