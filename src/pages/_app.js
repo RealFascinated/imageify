@@ -13,20 +13,20 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 	const shouldReturnMetadata = router.pathname !== "/files/[fileId]";
 
 	return (
-		<NextUIProvider theme={darkTheme}>
-			<NextSeo
-				titleTemplate="%s | Imageify"
-				themeColor="#0063EB"
-				openGraph={shouldReturnMetadata ? baseOpenGraph : undefined}
-			/>
-			<Layout>
-				<SessionProvider session={session}>
+		<SessionProvider session={session}>
+			<NextUIProvider theme={darkTheme}>
+				<NextSeo
+					titleTemplate="%s | Imageify"
+					themeColor="#0063EB"
+					openGraph={shouldReturnMetadata ? baseOpenGraph : undefined}
+				/>
+				<Layout>
 					<NextUIProvider>
 						<Component {...pageProps} />
 					</NextUIProvider>
-				</SessionProvider>
-			</Layout>
-		</NextUIProvider>
+				</Layout>
+			</NextUIProvider>
+		</SessionProvider>
 	);
 }
 
