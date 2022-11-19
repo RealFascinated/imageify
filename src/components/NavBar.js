@@ -1,4 +1,4 @@
-import { Navbar, Text } from "@nextui-org/react";
+import { Avatar, Dropdown, Navbar, Text } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 
 export default function NavBar() {
@@ -13,7 +13,37 @@ export default function NavBar() {
 			</Navbar.Brand>
 			<Navbar.Content>
 				{status === "authenticated" ? (
-					<p>signed in</p>
+					<Dropdown placement="bottom-left">
+						<Dropdown.Trigger>
+							<Avatar
+								bordered
+								size="lg"
+								as="button"
+								color="primary"
+								src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+							/>
+						</Dropdown.Trigger>
+						<Dropdown.Menu color="primary" aria-label="Avatar Actions">
+							<Dropdown.Item key="profile" css={{ height: "$18" }}>
+								<Text b color="inherit" css={{ d: "flex" }}>
+									Signed in as
+								</Text>
+								<Text b color="inherit" css={{ d: "flex" }}>
+									{session.user.username}
+								</Text>
+							</Dropdown.Item>
+							<Dropdown.Item key="my_settings" withDivider>
+								My Settings
+							</Dropdown.Item>
+							<Dropdown.Item key="analytics">Analytics</Dropdown.Item>
+							<Dropdown.Item key="system_settings" withDivider>
+								System Settings
+							</Dropdown.Item>
+							<Dropdown.Item key="logout" color="error" withDivider>
+								Log Out
+							</Dropdown.Item>
+						</Dropdown.Menu>
+					</Dropdown>
 				) : (
 					<Navbar.Link color="inherit" href="#">
 						Login
