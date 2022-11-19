@@ -54,10 +54,6 @@ export default function File({ isValidFile, fileData }) {
 
 	let openGraph = {};
 	let embedColor;
-	if (!isValidFile) {
-		openGraph.title = "Unknown file";
-		openGraph.description = "This file was not found, is this correct id?";
-	}
 	if (isValidFile) {
 		if (!isVideo && !isImage) {
 			openGraph.description = "Click to open and download this file";
@@ -76,9 +72,16 @@ export default function File({ isValidFile, fileData }) {
 			embedColor = "#" + color;
 		}
 	}
+	if (!isValidFile) {
+		openGraph.title = "Unknown file";
+		openGraph.description = "This file was not found, is this correct id?";
+	}
 	const metaData = (
 		<NextSeo
-			title={openGraph.title}
+			// Find a fix for the title also being added to the
+			// open graph tags so we can re-enable this
+			// it breaks disabing embeds on discord (user setting)
+			// title={isValidFile ? `${fileId}.${ext}` : "Unknown file"}
 			openGraph={openGraph}
 			themeColor={embedColor ? embedColor : undefined}
 			twitter={{
