@@ -1,3 +1,10 @@
+import NavBar from "./NavBar";
+
 export default function Layout({ children }) {
-	return <div className="h-screen bg-[#080808] text-white">{children}</div>;
+	return (
+		<div className="bg-[#080808] text-white">
+			<NavBar></NavBar>
+			<div className="h-screen">{children}</div>
+		</div>
+	);
 }
