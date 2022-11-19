@@ -22,6 +22,6 @@ export default async function handler(req, res) {
 
 export const config = {
 	api: {
-		responseLimit: "1gb", // Limit the response size (the file)
+		responseLimit: "1gb", // Limit the response size (the file data)
 	},
 };
