@@ -96,7 +96,7 @@ export default function File({ isValidFile, fileData }) {
 		return (
 			<>
 				{metaData}
-				<div className="h-screen flex items-center justify-center">
+				<div className="h-[89.9vh] flex items-center justify-center">
 					<div className="flex flex-col text-center items-center justify-center">
 						<h1 className="text-red-500 text-3xl mb-5">Invalid File</h1>
 						<Link href="/">
@@ -123,7 +123,7 @@ export default function File({ isValidFile, fileData }) {
 	return (
 		<>
 			{metaData}
-			<div className="h-screen flex items-center justify-center">
+			<div className="h-[89.9vh] flex items-center justify-center">
 				<div className="flex flex-col items-center justify-center">
 					<Text h1 className="font-bold text-lg">
 						{originalFileName} ({fileId}.{ext})
@@ -167,6 +167,6 @@ export async function getStaticProps({ params }) {
 			isValidFile: file !== null,
 			fileData: JSON.stringify(file || []),
 		},
-		revalidate: 300, // 5 minutes
+		revalidate: 60, // 1 minute
 	};
 }
