@@ -7,7 +7,8 @@ import {
 } from "../../../utils/helpers/passwordHelpers";
 import { createUser, getUser } from "../../../utils/helpers/userHelpers";
 
-// Create admin account if one doesn't exist yet
+// Create admin account if one doesn't exist yet (this is temporary)
+// There will be a CLI eventually
 const pass = generateRandomPassword();
 createUser("admin", pass).then((returned) => {
 	if (returned === true) {
@@ -42,6 +43,7 @@ export const authOptions = {
 					}
 					user.lastLoginDate = new Date();
 					await user.save();
+					console.log(`User: ${user}`);
 					return user;
 				} else {
 					return null;
