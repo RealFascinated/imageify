@@ -26,7 +26,7 @@
 		"next": "13.0.5",
 		"next-auth": "^4.17.0",
 		"next-connect": "^0.13.0",
-		"next-seo": "^5.14.1",
+		"next-seo": "^5.15.0",
 		"node-cache": "^5.1.2",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
