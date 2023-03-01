@@ -16,7 +16,7 @@
 		"bcrypt": "^5.1.0",
 		"child_process": "^1.0.2",
 		"critters": "^0.0.16",
-		"eslint-config-next": "13.0.6",
+		"eslint-config-next": "13.2.3",
 		"ffprobe": "^1.1.2",
 		"ffprobe-static": "^3.1.0",
 		"http-status-codes": "^2.2.0",
